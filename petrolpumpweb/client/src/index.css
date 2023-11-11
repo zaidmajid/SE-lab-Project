@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* font-family: 'Manrope', sans-serif;*/
+/* index.css */
+
+/* index.css */
+/* index.css */
+
+/* index.css */
+
+/* index.css */
+
+.navbar {
+  background-color: #800000; /* Maroonish red background color */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Darker box shadow for the navbar */
+}
+
+.navbar-brand {
+  color: #ffffff; /* White text color */
+  font-weight: bold;
+  font-size: 28px; /* Adjust the font size as needed */
+  margin-left: 15px; /* Adjust the left margin as needed */
+}
+
+.navbar-nav .nav-link {
+  color: #ffffff !important; /* White text color with !important to override other styles */
+  font-size: 22px; /* Adjust the font size as needed */
+}
+
+.custom-navbar {
+  margin-left: auto;
+  margin-right: 20px; /* Adjust the right margin as needed */
+}
+.active{
+  border-bottom: 2px solid  #ffffff;
+}
+
+.custom-navbar .nav-link:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Darker box shadow on hover for nav links */
+}
+
+/* index.css */
+/* index.css */
+
+/* index.css */
+
+/* index.css */
+/* index.css */
+
+/* index.css */
+
+.footer-container {
+  background-color: silver;
+  color: #001F3F; /* Dark navy blue text color */
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-section {
+  width: 50%;
+  text-align: center;
+}
+
+.footer-section h2 {
+  font-weight: bold;
+  color: #001F3F; /* Dark navy blue text color */
+}
+
+.footer-section h4 {
+  font-weight: bold; /* Make the "Contact" heading bold */
+  color: #001F3F; /* Dark navy blue text color */
+}
+
+.footer-section a {
+  color: #001F3F; /* Dark navy blue text color for the link */
+  text-decoration: none; /* Remove the underline */
+}
+
+.footer-section a:hover {
+  color: #ffffff; /* White text color on hover */
+  text-decoration: underline; /* Underline on hover */
+}
+
+.footer-section p {
+  margin: 8px 0; /* Adjust the margin as needed to decrease the vertical space */
+}
+
+.pnf {
+  display: flex;
+  min-height: 65vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.pnf-title {
+  font-size: 100px;
+  font-weight: 700;
+}
+
+.pnf-heading {
+  font-weight: normal;
+}
+
+.pnf-btn {
+  color: black;
+  border: 1px solid black;
+  text-decoration: none;
+  padding: 10px;
+  margin-top: 10px;
+}
+.pnf-btn:hover {
+  background-color: black;
+  color: white;
+}
+/* ========================================= */
+
+.contactus {
+  background-color:  white;
+}
+
+.contact-left,
+.contact-right {
+  height: 100%;
+}
+
+.contact-heading {
+  background-color:  #001F3F;
+  color: white;
+  padding: 10px;
+  width: 1000px;; /* Set width to fit content */
+}
+
+

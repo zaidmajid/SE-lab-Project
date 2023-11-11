@@ -1,0 +1,62 @@
+{
+  "name": "petrolpumpweb",
+  "proxy": "http://localhost:8080",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.17",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.5",
+    "@mui/system": "^5.14.17",
+    "@testing-library/jest-dom": "^5.17.0",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "bcrypt": "^5.1.1",
+    "colors": "^1.4.0",
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.6.2",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.17.0",
+    "react-scripts": "5.0.1",
+    "styled-components": "^6.1.1",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix ./client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "description": "Petrol Pump Website SE project",
+  "main": "server.js",
+  "type": "module",
+  "keywords": [],
+  "author": "Noor",
+  "license": "ISC"
+}

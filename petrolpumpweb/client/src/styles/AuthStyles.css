@@ -1,0 +1,26 @@
+.dark-navy-background {
+    background-color: #001f3f; /* Dark blue background */
+  }
+  
+  .silver-container {
+    background-color: silver;
+    padding: 20px;
+    border-radius: 8px;
+    margin: auto;
+    width: 50%;
+  }
+  
+  .black-title {
+    color: black;
+    text-align: center; /* Center the text */
+  }
+  
+  .black-text {
+    color: black;
+  }
+  
+  .mehroonish-red-button {
+    background-color: #800000; /* Maroonish red */
+    color: white;
+  }
+  
