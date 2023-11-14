@@ -28,7 +28,7 @@ const PrivateRoute = () => {
             console.log("Request Headers:", headers);
   
             // Make an authenticated request with the token
-            const res = await axios.get("http://localhost:8080/api/v1/auth/admin-auth", {
+            const res = await axios.get("http://localhost:8080/api/admin-auth", {
               headers,
             });
             console.log(res.data);

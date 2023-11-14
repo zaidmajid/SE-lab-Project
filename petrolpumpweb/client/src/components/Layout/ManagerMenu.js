@@ -39,7 +39,7 @@ const ManagerMenu = () => {
             Profile
           </NavLink>
           <NavLink
-            to="/dashboard/Manager/employees"
+            to="/dashboard/Manager/employee"
             className="list-group-item list-group-item-action"
             style={menuItemStyle}
             activeStyle={activeStyle}

@@ -9,8 +9,11 @@ import Login from './pages/Auth/Login';
 import OwnerDashboard from './pages/Owner/OwnerDashboard';
 import PrivateRoute from './components/Routes/Private';
 import ForgotPasssword from './pages/Auth/ForgotPassword';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'antd/dist/reset.css';
 import ManagerRoute from './components/Routes/ManagerRoute';
 import ManagerDashboard from './pages/Manager/ManagerDashboard';
+import Employees from './pages/Manager/Employees';
 
 function App() {
   return (
@@ -26,6 +29,7 @@ function App() {
           <Route path="Manager" element={<ManagerDashboard />} />
         </Route>
         <Route path="/register" element={<Register />} />
+        <Route path="/employee" element={<Employees />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/forgot-password" element={<ForgotPasssword/>} />

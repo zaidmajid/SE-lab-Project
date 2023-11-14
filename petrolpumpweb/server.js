@@ -1,42 +1,41 @@
-import express from'express';
+import express from 'express';
 import colors from 'colors';
-import dotenv from'dotenv';
-import morgan from "morgan"
-import cors from "cors";
-//require('./config/db')
+import dotenv from 'dotenv';
+import morgan from 'morgan';
+import cors from 'cors';
+import { readdirSync } from 'fs';
 import connectToMongo from './config/db.js';
-import authRoutes from './routes/authRoute.js'
+import authRoutes from './routes/authRoute.js';
+import employeeRoute from './routes/employeeRoute.js';
 
-//configure env
+// configure env
 dotenv.config();
 
-//database config 
+// database config
 connectToMongo();
 
-const app=express()
+const app = express();
 
-//middlewares
-
+// middlewares
 app.use(cors());
-app.use(express.json())
-app.use(morgan('dev'))
+app.use(express.json());
+app.use(morgan('dev'));
 
+// routes
+app.use("/api", authRoutes);
+app.use("/api", employeeRoute);
 
-//routes
-app.use("/api/v1/auth", authRoutes);
-
-//rest apis
-app.get('/',(req,res)=>{
-    res.send({
-        message:("<h1>Welcome to Petrolium</h1>"),
-    });
+// rest apis
+app.get('/', (req, res) => {
+  res.send({
+    message: '<h1>Welcome to Petrolium</h1>',
+  });
 });
-//PORT
-const PORT = process.env.PORT || 8080 ;
 
-//run listen
+// PORT
+const PORT = process.env.PORT || 8080;
+
+// run listen
 app.listen(PORT, () => {
-  console.log(
-    `Server Running on ${PORT}`.bgCyan.white);
-      
+  console.log(`Server Running on ${PORT}`.bgCyan.white);
 });
