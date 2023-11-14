@@ -2,7 +2,8 @@ import express from "express";
 import {registerController,
     loginController,
     testController,
-    forgotPasswordController
+    forgotPasswordController,
+    delManager, editManager, getManager, getManagers,
 } from '../controllers/authController.js';
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 
@@ -12,6 +13,13 @@ const router = express.Router();
 //routing
 //REGISTER || METHOD POST
 router.post("/register", registerController);
+
+router.get("/managers",getManagers);
+router.put("/manager/:id", editManager)
+
+router.get("/manager/:id", getManager)
+
+router.delete("/manager/:id", delManager)
 
 //Forgot Password || POST
 router.post("/forgot-password", forgotPasswordController);

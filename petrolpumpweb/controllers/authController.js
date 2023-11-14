@@ -56,8 +56,66 @@ export const registerController = async (req, res) => {
     });
   }
 };
+//get managers
+export const getManagers = async (req, res) => {
+  try {
+    const users = await userModel.find({ role: 0 }); // Only fetch users with role 0
+    return res.json(users);
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+//get a manager 
+export const getManager = async (req, res) => {
+  try {
+    const user = await userModel.findOne({ _id: req.params.id }); 
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
+    return res.status(200).json(user);
+  } catch (error) {
+    return res.status(500).json({ error: 'An error occurred while fetching the user.' });
+  }
+};
+// edit manager 
+export const editManager = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const updatedData = req.body;
 
+    const updatedUser = await userModel.findByIdAndUpdate(
+      { _id: userId },
+      updatedData,
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({ User: updatedUser });
+  } catch (error) {
+    res.status(500).json({ error: 'An error occurred while updating the user.' });
+  }
+};
+//Delete Manager
+
+export const delManager = async (req, res) => {
+  try {
+    const userId = req.params.id;
+
+    const deletedUser = await userModel.findOneAndDelete({ _id: userId });
+
+    if (!deletedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    return res.json({  deletedUser });
+  } catch (error) {
+    return res.status(500).json({ error: 'An error occurred while deleting the user.' });
+  }
+};
 //POST LOGIN
 export const loginController = async (req, res) => {
   try {

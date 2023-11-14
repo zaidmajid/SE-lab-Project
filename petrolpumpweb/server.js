@@ -3,7 +3,7 @@ import colors from 'colors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
-import { readdirSync } from 'fs';
+//import { readdirSync } from 'fs';
 import connectToMongo from './config/db.js';
 import authRoutes from './routes/authRoute.js';
 import employeeRoute from './routes/employeeRoute.js';
