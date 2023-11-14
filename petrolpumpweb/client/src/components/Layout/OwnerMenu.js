@@ -27,21 +27,21 @@ const OwnerMenu = () => {
         <div className="list-group">
           <h4 style={{ color: "black" }}>Manager's Dashboard</h4>
           <NavLink
-            to="/dashboard/Manager/profile"
+            to="/dashboard/Owner/profile"
             className="list-group-item list-group-item-action"
             style={menuItemStyle}
           >
             Profile
           </NavLink>
           <NavLink
-            to="/dashboard/Manager/manager"
+            to="/dashboard/Owner/manager"
             className="list-group-item list-group-item-action"
             style={menuItemStyle}
           >
             Manager
           </NavLink>
           <NavLink
-            to="/dashboard/Manager/inventoryreport"
+            to="/dashboard/Owner/inventoryreport"
             className="list-group-item list-group-item-action"
             style={menuItemStyle}
           >
@@ -49,7 +49,7 @@ const OwnerMenu = () => {
           </NavLink>
        
           <NavLink
-            to="/dashboard/Manager/transactions"
+            to="/dashboard/Owner/transactions"
             className="list-group-item list-group-item-action"
             style={menuItemStyle}
           >

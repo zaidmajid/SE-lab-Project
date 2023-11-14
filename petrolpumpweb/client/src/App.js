@@ -14,6 +14,7 @@ import 'antd/dist/reset.css';
 import ManagerRoute from './components/Routes/ManagerRoute';
 import ManagerDashboard from './pages/Manager/ManagerDashboard';
 import Employees from './pages/Manager/Employees';
+import Managers from './pages/Owner/Managers';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         </Route>
         <Route path="/register" element={<Register />} />
         <Route path="/employee" element={<Employees />} />
+        <Route path="/manager" element={<Managers />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/forgot-password" element={<ForgotPasssword/>} />
