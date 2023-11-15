@@ -28,7 +28,7 @@ const ManagerRoute = () => {
             console.log("Request Headers:", headers);
   
             // Make an authenticated request with the token
-            const res = await axios.get("http://localhost:8080/api/v1/auth/user-auth", {
+            const res = await axios.get("http://localhost:8080/api/user-auth", {
               headers,
             });
             console.log(res.data);

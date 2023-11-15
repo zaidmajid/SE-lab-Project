@@ -27,6 +27,7 @@ const Login = () => {
 
       if (res.data.success && !isNavigatedRef.current) {
         toast.success(res.data.message);
+        console.log(res.data);
 
         setAuth({
           ...auth,
@@ -82,10 +83,8 @@ const Login = () => {
             <div className="mb-3">
           <button
               type="button"
-              className="btn forgot-btn  mehroonish-red-button"
-              onClick={() => {
-                navigate("/forgot-password ");
-              }}
+              className="btn btn-primary mehroonish-red-button"
+              onClick={() => { navigate("/forgot-password "); }}
             >
               Forgot Password
             </button>

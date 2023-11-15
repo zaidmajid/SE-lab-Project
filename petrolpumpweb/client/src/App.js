@@ -15,6 +15,12 @@ import ManagerRoute from './components/Routes/ManagerRoute';
 import ManagerDashboard from './pages/Manager/ManagerDashboard';
 import Employees from './pages/Manager/Employees';
 import Managers from './pages/Owner/Managers';
+import CreateCategory from './pages/Manager/CreateCategory';
+import CreateProduct from './pages/Manager/CreateProduct';
+import Sales from './pages/Manager/Sales';
+import Transaction from './pages/Manager/Transaction';
+import ManagerProfile from './pages/Manager/ManagerProfile';
+import OwnerProfile from './pages/Owner/OwnerProfile';
 
 function App() {
   return (
@@ -24,14 +30,20 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/dashboard" element={<PrivateRoute />}>
           <Route path="Owner" element={<OwnerDashboard />} />
+          <Route path="Owner/profile" element={<OwnerProfile />} />
+          <Route path="Owner/manager" element={<Managers />} />
         </Route>
-        //user==manager
+       
         <Route path="/dashboard" element={<ManagerRoute />}>
           <Route path="Manager" element={<ManagerDashboard />} />
+          <Route path="Manager/profile" element={<ManagerProfile />} />
+          <Route path="Manager/employee" element={<Employees />} />
+          <Route path="Manager/create-category" element={<CreateCategory />} />
+          <Route path="Manager/create-product" element={<CreateProduct />} />
+          <Route path="Manager/sale" element={<Sales />} />
+          <Route path="Manager/transactions" element={<Transaction />} />
         </Route>
         <Route path="/register" element={<Register />} />
-        <Route path="/employee" element={<Employees />} />
-        <Route path="/manager" element={<Managers />} />
         <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/forgot-password" element={<ForgotPasssword/>} />

@@ -47,20 +47,20 @@ const ManagerMenu = () => {
             Employees
           </NavLink>
           <NavLink
-            to="/dashboard/Manager/inventory"
+            to="/dashboard/Manager/create-category"
             className="list-group-item list-group-item-action"
             style={menuItemStyle}
             activeStyle={activeStyle}
           >
-            Inventory
+            Category
           </NavLink>
           <NavLink
-            to="/dashboard/Manager/salary"
+            to="/dashboard/Manager/create-product"
             className="list-group-item list-group-item-action"
             style={menuItemStyle}
             activeStyle={activeStyle}
           >
-            Salaries
+            Products
           </NavLink>
           <NavLink
             to="/dashboard/Manager/sale"

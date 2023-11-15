@@ -7,6 +7,7 @@ import cors from 'cors';
 import connectToMongo from './config/db.js';
 import authRoutes from './routes/authRoute.js';
 import employeeRoute from './routes/employeeRoute.js';
+import categoryRoute from './routes/categoryRoutes.js';
 
 // configure env
 dotenv.config();
@@ -24,6 +25,7 @@ app.use(morgan('dev'));
 // routes
 app.use("/api", authRoutes);
 app.use("/api", employeeRoute);
+app.use("/api", categoryRoute);
 
 // rest apis
 app.get('/', (req, res) => {
