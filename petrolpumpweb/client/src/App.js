@@ -21,6 +21,8 @@ import Sales from './pages/Manager/Sales';
 import Transaction from './pages/Manager/Transaction';
 import ManagerProfile from './pages/Manager/ManagerProfile';
 import OwnerProfile from './pages/Owner/OwnerProfile';
+import Products from './pages/Manager/Products';
+import UpdateProduct from './pages/Manager/UpdateProduct';
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
           <Route path="Manager/employee" element={<Employees />} />
           <Route path="Manager/create-category" element={<CreateCategory />} />
           <Route path="Manager/create-product" element={<CreateProduct />} />
+          <Route path="Manager/products" element={<Products />} />
+          <Route path="Manager/product/:slug" element={<UpdateProduct />} />
           <Route path="Manager/sale" element={<Sales />} />
           <Route path="Manager/transactions" element={<Transaction />} />
         </Route>

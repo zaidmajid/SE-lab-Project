@@ -60,6 +60,14 @@ const ManagerMenu = () => {
             style={menuItemStyle}
             activeStyle={activeStyle}
           >
+            Create Products
+          </NavLink>
+          <NavLink
+            to="/dashboard/Manager/products"
+            className="list-group-item list-group-item-action"
+            style={menuItemStyle}
+            activeStyle={activeStyle}
+          >
             Products
           </NavLink>
           <NavLink

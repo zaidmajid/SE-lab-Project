@@ -9,13 +9,15 @@ import slugify from "slugify";
 
 export const createProductController = async (req, res) => {
   try {
-    const { Brandname, price, category, quantity,Saleprice } =
+    const { Brandname,Brandemail, price, category, quantity,Saleprice } =
       req.fields;
     const { photo } = req.files;
     //alidation
     switch (true) {
       case !Brandname:
-        return res.status(500).send({ error: "Name is Required" });
+        return res.status(500).send({ error: "Brand Name is Required" });
+      case !Brandemail:
+        return res.status(500).send({ error: "Brand Email is Required" });
       case !price:
         return res.status(500).send({ error: "Price is Required" });
       case !category:
@@ -135,13 +137,15 @@ export const deleteProductController = async (req, res) => {
 //upate producta
 export const updateProductController = async (req, res) => {
   try {
-    const { Brandname,  price, category, quantity,Saleprice } =
+    const { Brandname,Brandemail,  price, category, quantity,Saleprice } =
       req.fields;
     const { photo } = req.files;
     //alidation
     switch (true) {
-      case !Brandname:
-        return res.status(500).send({ error: "Name is Required" });
+     case !Brandname:
+        return res.status(500).send({ error: "Brand Name is Required" });
+      case !Brandemail:
+          return res.status(500).send({ error: "Brand Email is Required" });
       case !price:
         return res.status(500).send({ error: "Price is Required" });
       case !category:

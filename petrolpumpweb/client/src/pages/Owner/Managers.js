@@ -3,10 +3,10 @@ import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import { Form, Input, Button } from "antd";
 import { toast } from "react-toastify";
-
+import { Select } from "antd";
 import Layout from "./../../components/Layout/Layout";
 import OwnerMenu from "../../components/Layout/OwnerMenu";
-
+const { Option } = Select;
 const Managers = () => {
   const [managersArray, setManagerArray] = useState([]);
   const [show, setShow] = useState(false);
@@ -156,25 +156,24 @@ const Managers = () => {
                               onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
                             />
                           </Form.Item>
-                                <Form.Item label="Role" name="role">
-                                    <Input
-                                        placeholder="Role:0"
-                                        type="number"
-                                        value={formData.role}
-                                        defaultValue={isEdit ? editManager?.role : ""}
-                                        onChange={(e) => {
-                                        const inputVal = e.target.value.replace(/[^0]/g, ''); // Only allow 0
-                                        setFormData({ ...formData, role: inputVal });
-                                        }}
-                                        onBlur={() => {
-                                        const value = formData.role;
-                                        if (value !== '0') {
-                                            setFormData({ ...formData, role: '0' });
-                                        }
-                                        }}
-                                    />
-                                    </Form.Item>
+                          <Form.Item label="Role" name="role">
+                          <Select
+                              bordered={false}
+                              placeholder="Select Role"
+                              size="large"
+                              showSearch
+                              className="form-select mb-3"
+                              defaultValue={(isEdit && editManager?.answer) ? '0' : undefined}
+                              onChange={(value) => {
+                                  // Only allow '0'
+                                  setFormData({ ...formData, role: value === '0' ? '0' : '' });
+                              }}
+                          >
+                              <Option value="0">Role:0</Option>
+                          </Select>
+                      </Form.Item>      
                         </Form>
+
                       )}
                     </div>
                   </div>
