@@ -71,7 +71,7 @@ const ManagerMenu = () => {
             Products
           </NavLink>
           <NavLink
-            to="/dashboard/Manager/sale"
+            to="/dashboard/Manager/sales"
             className="list-group-item list-group-item-action"
             style={menuItemStyle}
             activeStyle={activeStyle}

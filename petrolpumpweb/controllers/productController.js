@@ -204,5 +204,39 @@ export const productCountController = async (req, res) => {
   }
 };
 
+export const updateQuantityProductController = async (req, res) => {
+  try {
+    console.log(req.params);
+    const { pid } = req.params; 
+    console.log(pid);
+    const { quantity } = req.body;
 
+    // Validation for quantity
+    if (!quantity) {
+      return res.status(500).send({ error: "Quantity is Required" });
+    }
 
+    const updatedProduct = await productModel.findByIdAndUpdate(
+      pid,
+      { quantity },
+      { new: true } 
+    );
+
+    // Check if the product was found and updated
+    if (!updatedProduct) {
+      return res.status(404).send({ error: "Product not found" });
+    }
+
+    // Save the updated product
+    await updatedProduct.save();
+
+    res.status(201).send({
+      success: true,
+      message: "Product quantity Updated Successfully",
+      updatedProduct,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ error: "Internal Server Error" });
+  }
+};

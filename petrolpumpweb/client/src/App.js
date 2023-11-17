@@ -23,6 +23,7 @@ import ManagerProfile from './pages/Manager/ManagerProfile';
 import OwnerProfile from './pages/Owner/OwnerProfile';
 import Products from './pages/Manager/Products';
 import UpdateProduct from './pages/Manager/UpdateProduct';
+import DisplaySales from './pages/Manager/DisplaySales';
 
 function App() {
   return (
@@ -44,7 +45,8 @@ function App() {
           <Route path="Manager/create-product" element={<CreateProduct />} />
           <Route path="Manager/products" element={<Products />} />
           <Route path="Manager/product/:slug" element={<UpdateProduct />} />
-          <Route path="Manager/sale" element={<Sales />} />
+          <Route path="Manager/create-sales" element={<Sales />} />
+          <Route path="Manager/sales" element={<DisplaySales />} />
           <Route path="Manager/transactions" element={<Transaction />} />
         </Route>
         <Route path="/register" element={<Register />} />

@@ -8,7 +8,57 @@ const Products = () => {
   const [products, setProducts] = useState([]);
 
   //getall products
-  const getAllProducts = async () => {
+  const getAllProducts1 = async () => {
+    try {
+      const { data } = await axios.get("http://localhost:8080/api/get-product");
+      console.log(data);
+  
+      // Use Promise.all to wait for all asynchronous operations to complete
+      await Promise.all(
+        data.products.map(async (product) => {
+          if (product.quantity === 0) {
+            const emailData = {
+              to: product.Brandemail,
+              subject: "Restock Request",
+              text: `Dear Brand, the product ${product.Brandname} needs restocking. Please take necessary actions.`,
+            };
+  
+            try {
+              const emailResponse = await axios.post("http://localhost:8080/api/send-email", emailData);
+  
+              if (emailResponse.data.success) {
+                toast.success(`Restock request email sent to ${product.Brandemail}`);
+  
+                // Call the API to update the quantity to 100
+                const updateQuantityResponse = await axios.put(
+                  `http://localhost:8080/api/update-productquantity/${product._id}`,
+                  { quantity: 100 },
+                );
+  
+                if (updateQuantityResponse.data.success) {
+                  toast.success(`Quantity updated for ${product.Brandname}`);
+                } else {
+                  toast.error(`Failed to update quantity for ${product.Brandname}`);
+                }
+              } else {
+                toast.error(`Failed to send restock request email for ${product.Brandname}`);
+              }
+            } catch (emailError) {
+              console.error("Error sending email:", emailError);
+              toast.error(`Failed to send restock request email for ${product.Brandname}`);
+            }
+          }
+        })
+      );
+    } catch (error) {
+      console.log(error);
+      toast.error("Something Went Wrong");
+    }
+  };
+  
+  
+
+  const getAllProducts2 = async () => {
     try {
       const { data } = await axios.get("http://localhost:8080/api/get-product");
       setProducts(data.products);
@@ -16,11 +66,13 @@ const Products = () => {
       console.log(error);
       toast.error("Someething Went Wrong");
     }
-  };
-
+  }; 
+  
   //lifecycle method
   useEffect(() => {
-    getAllProducts();
+    getAllProducts1();
+    getAllProducts2();
+    
   }, []);
   const dashboardStyle = {
     backgroundColor: "#001f3f", // Dark blue color
