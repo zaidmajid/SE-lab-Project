@@ -59,34 +59,53 @@ const CreateSale = () => {
   };
 
   // handle sales creation
-const handleCreateSale = async (e) => {
-  e.preventDefault();
-  try {
-   
-
-    const saleData = {
-      product: selectedProduct,
-      Salequantity,
-      
-       date: `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`,
-
-   
-    };
-    console.log(saleData);
-    const { data } = await axios.post('http://localhost:8080/api/create-sale', saleData);
-
-    if (data?.success) {
-       toast.success('Sale Created Successfully');
-      navigate('/dashboard/Manager/sales');
-      toast.error(data?.message);
-    } else {
-     
+  const handleCreateSale = async (e) => {
+    e.preventDefault();
+    try {
+      const saleData = {
+        product: selectedProduct,
+        Salequantity,
+        date: `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`,
+      };
+  
+      console.log(saleData);
+  
+      const { data } = await axios.post('http://localhost:8080/api/create-sale', saleData);
+  
+      if (data?.success) {
+        toast.success('Sale Created Successfully');
+  
+        // Update product quantity
+        const selectedProductIndex = products.findIndex((product) => product._id === selectedProduct);
+        const updatedProducts = [...products];
+        const updatedProduct = { ...updatedProducts[selectedProductIndex] };
+        updatedProduct.quantity -= parseInt(Salequantity, 10);
+        updatedProducts[selectedProductIndex] = updatedProduct;
+        setProducts(updatedProducts);
+  
+        // Update quantity on the server
+        const updatedquantity = updatedProduct.quantity;
+        const updateQuantityResponse = await axios.put(
+          `http://localhost:8080/api/update-productquantity/${selectedProduct}`,
+          { quantity: updatedquantity },
+        );
+  
+        if (updateQuantityResponse.data?.success) {
+          toast.success('Product quantity updated successfully');
+        } else {
+          toast.error(updateQuantityResponse.data?.message);
+        }
+  
+        navigate('/dashboard/Manager/sales');
+      } else {
+        toast.error(data?.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Something went wrong');
     }
-  } catch (error) {
-    console.log(error);
-    toast.error('Something went wrong')
-  }
-};
+  };
+  
 
 
   return (

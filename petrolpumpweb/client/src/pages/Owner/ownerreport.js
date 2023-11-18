@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "../../components/Layout/Layout";
-import ManagerMenu from "../../components/Layout/ManagerMenu";
+import OwnerMenu from "../../components/Layout/OwnerMenu";
 import { toast } from "react-toastify";
 import Button from "@mui/material/Button";
 import jsPDF from "jspdf";
 
-const Transaction = () => {
+const Reports = () => {
   const [products, setProducts] = useState([]);
   const [sales, setSales] = useState([]);
   const [selectedReport, setSelectedReport] = useState("");
@@ -145,7 +145,7 @@ const Transaction = () => {
       <div className="container-fluid m-3 p-3 dashboard" style={dashboardStyle}>
         <div className="row">
           <div className="col-md-3">
-            <ManagerMenu />
+            <OwnerMenu />
           </div>
           <div className="col-md-9">
             <h1>Transaction</h1>
@@ -176,4 +176,4 @@ const Transaction = () => {
   );
 };
 
-export default Transaction;
+export default Reports;

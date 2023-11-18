@@ -19,11 +19,12 @@ import CreateCategory from './pages/Manager/CreateCategory';
 import CreateProduct from './pages/Manager/CreateProduct';
 import Sales from './pages/Manager/Sales';
 import Transaction from './pages/Manager/Transaction';
-import ManagerProfile from './pages/Manager/ManagerProfile';
 import OwnerProfile from './pages/Owner/OwnerProfile';
 import Products from './pages/Manager/Products';
 import UpdateProduct from './pages/Manager/UpdateProduct';
 import DisplaySales from './pages/Manager/DisplaySales';
+import Inventory from './pages/Owner/Inventory';
+import Reports from './pages/Owner/ownerreport';
 
 function App() {
   return (
@@ -35,11 +36,13 @@ function App() {
           <Route path="Owner" element={<OwnerDashboard />} />
           <Route path="Owner/profile" element={<OwnerProfile />} />
           <Route path="Owner/manager" element={<Managers />} />
+          <Route path="Owner/inventoryreport" element={<Inventory />} />
+          <Route path="Owner/transactions" element={<Reports />} />
+
         </Route>
        
         <Route path="/dashboard" element={<ManagerRoute />}>
           <Route path="Manager" element={<ManagerDashboard />} />
-          <Route path="Manager/profile" element={<ManagerProfile />} />
           <Route path="Manager/employee" element={<Employees />} />
           <Route path="Manager/create-category" element={<CreateCategory />} />
           <Route path="Manager/create-product" element={<CreateProduct />} />

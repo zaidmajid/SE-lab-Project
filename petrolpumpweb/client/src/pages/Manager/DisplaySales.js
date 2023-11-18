@@ -19,6 +19,7 @@ const DisplaySales = () => {
 
   const [sales, setSales] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState("");
+  const [sProduct, setProduct] = useState("");
   const [Salequantity, setSaleQuantity] = useState("");
   const [day, setDay] = useState("");
   const [month, setMonth] = useState("");
@@ -61,6 +62,12 @@ const DisplaySales = () => {
       console.log(selected._id);
       console.log(updatedSoldquantity);
       console.log(`${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`);
+      
+      const previousSoldQuantity = Salequantity;
+  
+      // Calculate the difference between the new and previous sale quantities
+      const quantityDifference = updatedSoldquantity - Salequantity;
+  
       const { data } = await axios.put(
         `http://localhost:8080/api/update-sale/${selected._id}`,
         {
@@ -69,10 +76,55 @@ const DisplaySales = () => {
           date: `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`,
         }
       );
-
+  
       if (data?.success) {
         toast.success(`Sale is updated`);
+  
+        // Update product quantity based on the difference
+        let updatedquantity;
+        console.log(quantityDifference);
+  
+        if (quantityDifference > 0) {
+          // If the new sale quantity is greater, subtract the difference from the selected product quantity
+          console.log(sProduct);
+          updatedquantity = sProduct-quantityDifference;
+          console.log(updatedquantity);
+          // Update the product quantity using the appropriate API
+          const updateQuantityResponse = await axios.put(
+            `http://localhost:8080/api/update-productquantity/${selectedProduct}`,
+            { quantity: updatedquantity },  // Subtract the difference
+          );
+  
+          if (updateQuantityResponse.data?.success) {
+            toast.success('Product quantity updated successfully');
+          } else {
+            toast.error(updateQuantityResponse.data?.message);
+          }
+        } else if (quantityDifference < 0) {
+          // If the new sale quantity is less, add the absolute difference to the selected product quantity
+        const qt= -quantityDifference;
+        console.log(sProduct);
+        console.log(qt);
+         updatedquantity = sProduct+ qt;
+  
+          // Update the product quantity using the appropriate API
+          const updateQuantityResponse = await axios.put(
+            `http://localhost:8080/api/update-productquantity/${selectedProduct}`,
+            { quantity:updatedquantity},  // Add the absolute difference
+          );
+  
+          if (updateQuantityResponse.data?.success) {
+            toast.success('Product quantity updated successfully');
+          } else {
+            toast.error(updateQuantityResponse.data?.message);
+          }
+        }
+  
         setSelected(null);
+        setUpdatedSoldquantity("");
+        setYear("");
+        setDay("");
+        setMonth("");
         setVisible(false);
         getAllSales();
       } else {
@@ -82,6 +134,7 @@ const DisplaySales = () => {
       console.log(error);
     }
   };
+  
 
   // Function to navigate to the create-sales page
   const navigateToAddSales = () => {
@@ -135,6 +188,7 @@ const DisplaySales = () => {
                             onClick={() => {
                               setVisible(true);
                               setSelectedProduct(s?.product?._id);
+                              setProduct(s?.product?.quantity);
                               setSaleQuantity(s?.Salequantity);
                               setDay(
                                 new Date(s?.date).getDate().toString()

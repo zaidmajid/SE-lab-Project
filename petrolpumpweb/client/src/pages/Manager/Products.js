@@ -32,7 +32,7 @@ const Products = () => {
                 // Call the API to update the quantity to 100
                 const updateQuantityResponse = await axios.put(
                   `http://localhost:8080/api/update-productquantity/${product._id}`,
-                  { quantity: 100 },
+                  { quantity: 1000 },
                 );
   
                 if (updateQuantityResponse.data.success) {

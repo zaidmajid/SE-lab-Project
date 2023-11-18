@@ -281,7 +281,6 @@ const handleEdit = (id) => {
               return (
                 <tr>
                   <td>{index + 1}</td>
-                  <td>{employee?._id}</td>
                   <td>{employee?.name}</td>
                   <td>{employee?.email}</td>
                   <td>{employee?.cnic}</td>

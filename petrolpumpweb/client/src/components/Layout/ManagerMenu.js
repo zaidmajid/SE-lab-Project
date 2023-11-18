@@ -30,14 +30,7 @@ const ManagerMenu = () => {
       <div className="text-center dashboard-menu" style={menuStyle}>
         <div className="list-group">
           <h4 style={{ color: "black", marginBottom: "15px", fontWeight: "bold" }}>Manager's Dashboard</h4>
-          <NavLink
-            to="/dashboard/Manager/profile"
-            className="list-group-item list-group-item-action"
-            style={menuItemStyle}
-            activeStyle={activeStyle}
-          >
-            Profile
-          </NavLink>
+        
           <NavLink
             to="/dashboard/Manager/employee"
             className="list-group-item list-group-item-action"
