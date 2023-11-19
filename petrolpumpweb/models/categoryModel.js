@@ -10,6 +10,10 @@ const categorySchema = new mongoose.Schema({
     type: String,
     lowercase: true,
   },
+  active: {
+    type: Boolean,
+    default: true, 
+  },
 });
 
 export default mongoose.model("Category", categorySchema);

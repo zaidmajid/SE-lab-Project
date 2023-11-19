@@ -62,7 +62,7 @@ export const updateCategoryController = async (req, res) => {
 // get all category
 export const categoryControlller = async (req, res) => {
   try {
-    const category = await categoryModel.find({});
+    const category = await categoryModel.find({ active: true});
     res.status(200).send({
       success: true,
       message: "All Categories List",
@@ -72,9 +72,28 @@ export const categoryControlller = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
+      
       error,
       message: "Error while getting all categories",
     });
+  }
+};
+export const toggleCategoryActiveController = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const category = await categoryModel.findById(id);
+
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    category.active = !category.active;
+    await category.save();
+
+    res.status(200).json(category);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

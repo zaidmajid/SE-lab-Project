@@ -11,6 +11,8 @@ const Transaction = () => {
   const [products, setProducts] = useState([]);
   const [sales, setSales] = useState([]);
   const [selectedReport, setSelectedReport] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [profitData, setProfitData] = useState(0);
   const [employeeArray, setEmployeeArray] = useState([]);
 
   const dashboardStyle = {
@@ -25,14 +27,14 @@ const Transaction = () => {
   };
 
   const comboBoxStyle = {
-    backgroundColor: "#222", 
-    color: "white", 
+    backgroundColor: "#222",
+    color: "white",
   };
 
   const generateButtonStyle = {
     backgroundColor: "#28a745",
-    color: "white", 
-    marginTop: "10px", 
+    color: "white",
+    marginTop: "10px",
   };
 
   const getAllProducts2 = async () => {
@@ -80,9 +82,9 @@ const Transaction = () => {
     let totalSalary = 0;
     employeeArray.forEach((emp) => {
       totalSalary += parseInt(emp.salary);
-      console.log(emp.salary)
+      console.log(emp.salary);
     });
-    console.log(totalSalary)
+    console.log(totalSalary);
     return totalSalary;
   };
 
@@ -98,36 +100,46 @@ const Transaction = () => {
   };
 
   const handleReportSelection = () => {
-    if (selectedReport === "profitReport") {
-      const profitData = calculateProfit();
-      generatePDFReport(profitData);
+    if (selectedReport === "profitReport" && selectedMonth) {
+      const profitForMonth = calculateProfitForMonth(selectedMonth);
+      setProfitData(profitForMonth);
+      generatePDFReport(profitForMonth, selectedMonth);
     } else if (selectedReport === "salaryReport") {
       const totalSalary = calculateTotalSalary();
       generateSalaryPDFReport(totalSalary);
+    } else {
+      toast.error("Please select a valid report and month");
     }
   };
 
-  const calculateProfit = () => {
+  const calculateProfitForMonth = (selectedMonth) => {
     let totalProfit = 0;
+    console.log(sales);
+
     sales.forEach((sale) => {
-      const product = products.find((p) => p._id === sale.product._id);
-      const profitForSale =
-       ( sale.Salequantity * product.Saleprice) -
-       ( sale.Salequantity * product.price);
+      const saleMonth = new Date(sale.date).getUTCMonth() + 1;
+      console.log(saleMonth);
+      console.log(selectedMonth);
+      if(saleMonth==selectedMonth)
+      {
+        const product = products.find((p) => p._id === sale.product._id  );
+        const profitForSale =
+    
+       ( sale.Salequantity * product.Saleprice) - (sale.Salequantity * product.price);
       totalProfit += profitForSale;
+      console.log(totalProfit);
+      }
+     
     });
 
     return totalProfit;
   };
 
-  const generatePDFReport = (profitData) => {
-  
+  const generatePDFReport = (profitData, selectedMonth) => {
     const pdf = new jsPDF();
-
-    // Add content to the PDF
     pdf.text("Profit Report", 20, 10);
     pdf.text(
-      `Total Profit in the terms of sold products: Rs ${profitData}`,
+      `Total Profit in the terms of sold products for month ${selectedMonth}: Rs ${profitData}`,
       20,
       20
     );
@@ -161,6 +173,23 @@ const Transaction = () => {
                 <option value="salaryReport">Employees Salary Report</option>
               </select>
             </div>
+            {selectedReport === "profitReport" && (
+              <div className="col-md-12">
+                <label style={labelStyle}>Select Month: </label>
+                <select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
+                  style={comboBoxStyle}
+                >
+                  <option value="">Select Month</option>
+                  {[...Array(new Date().getMonth() + 1).keys()].map((month) => (
+                    <option key={month + 1} value={month + 1}>
+                      {month + 1}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div className="col-md-9">
               <Button
                 onClick={handleReportSelection}

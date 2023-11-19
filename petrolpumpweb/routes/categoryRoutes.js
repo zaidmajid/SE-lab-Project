@@ -6,6 +6,7 @@ import {
   deleteCategoryCOntroller,
   singleCategoryController,
   updateCategoryController,
+  toggleCategoryActiveController,
 } from "./../controllers/categoryController.js";
 
 const router = express.Router();
@@ -25,5 +26,6 @@ router.get("/single-category/:id", singleCategoryController);
 
 //delete category
 router.delete("/delete-category/:id",requireSignIn, deleteCategoryCOntroller);
+router.put("/category/toggleActive/:id", toggleCategoryActiveController);
 
 export default router;

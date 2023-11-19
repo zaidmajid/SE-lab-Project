@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 
-import { AddEmployee, delEmployee, editEmployee, getEmployee, getEmployees } from "../controllers/employeeController.js";
+import { AddEmployee, delEmployee, editEmployee, getEmployee, getEmployees,toggleActive } from "../controllers/employeeController.js";
 
 router.post("/employee/add",AddEmployee);
 
@@ -12,5 +12,6 @@ router.put("/employee/:id", editEmployee)
 router.get("/employee/:id", getEmployee)
 
 router.delete("/employee/:id", delEmployee)
+router.put("/employee/toggleActive/:id", toggleActive); 
 
 export default router;

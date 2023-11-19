@@ -3,7 +3,7 @@ import {registerController,
     loginController,
     testController,
     forgotPasswordController,
-    delManager, editManager, getManager, getManagers,
+    delManager, editManager, getManager, getManagers,toggleActive
 } from '../controllers/authController.js';
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 
@@ -18,7 +18,7 @@ router.get("/managers",getManagers);
 router.put("/manager/:id", editManager)
 
 router.get("/manager/:id", getManager)
-
+router.put("/manager/toggleActive/:id", toggleActive);
 router.delete("/manager/:id", delManager)
 
 //Forgot Password || POST

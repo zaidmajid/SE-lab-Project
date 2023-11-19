@@ -9,6 +9,7 @@ import {
   productPhotoController,
   updateProductController,
   updateQuantityProductController,
+  toggleProductActiveController,
 } from "../controllers/productController.js";
 import emailController from "../controllers/emailController.js";
 import {requireSignIn } from "../middlewares/authMiddleware.js";
@@ -24,7 +25,7 @@ router.put("/update-productquantity/:pid",requireSignIn,updateQuantityProductCon
 
 //get products
 router.get("/get-product", getProductController);
-
+router.put("/product/toggleActive/:pid", toggleProductActiveController);
 //single product
 router.get("/get-product/:slug", getSingleProductController);
 

@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Switch } from "antd";
 import { toast } from "react-toastify";
 import { Select } from "antd";
 import Layout from "./../../components/Layout/Layout";
 import OwnerMenu from "../../components/Layout/OwnerMenu";
 const { Option } = Select;
+
 const Managers = () => {
   const [managersArray, setManagerArray] = useState([]);
   const [show, setShow] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [editManager, setEditManager] = useState({});
+  const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
+
   const handleClose = () => {
     setShow(false);
     setIsEdit(false);
   };
+
   const handleShow = () => setShow(true);
-  const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
 
   const getManager = async (id) => {
     setLoading(true);
@@ -61,19 +64,29 @@ const Managers = () => {
 
   async function submit(e) {
     e.preventDefault();
-
+  
     try {
       setLoading(true);
-      const { data } = await axios.post("http://localhost:8080/api/register", {
+      formData.role="0";
+      const response = await axios.post("http://localhost:8080/api/register", {
         name: formData.name,
         email: formData.email,
         password: formData.password,
+        role:  formData.role,
         answer: formData.answer,
-        role: formData.role || 0,
       });
-
-      toast.success("Manager Added Successfully ....");
-      setManagerArray([...managersArray, data]);
+      console.log(formData);
+      console.log(response.data); // Log the response data
+      const { data } = response;
+  
+      if (data && data.success) {
+        getManagers();
+        toast.success("Manager Added Successfully ....");
+       
+      } else {
+        toast.error(data.message);
+      }
+  
       setLoading(false);
       handleClose();
     } catch (err) {
@@ -81,7 +94,7 @@ const Managers = () => {
       setLoading(false);
     }
   }
-
+  
   const editData = async () => {
     try {
       await axios.put(`http://localhost:8080/api/manager/${editManager?._id}`, formData);
@@ -89,6 +102,17 @@ const Managers = () => {
       handleClose();
     } catch (error) {
       console.error("Error updating manager:", error);
+    }
+  };
+
+  const toggleManagerActive = async (id, currentActiveStatus) => {
+    try {
+      console.log(id);
+      const { data } = await axios.put(`http://localhost:8080/api/manager/toggleActive/${id}`);
+      toast.success("manager Active Status Updated Successfully");
+      getManagers();
+    } catch (error) {
+      toast.error("Error updating active status");
     }
   };
 
@@ -156,24 +180,8 @@ const Managers = () => {
                               onChange={(e) => setFormData({ ...formData, answer: e.target.value })}
                             />
                           </Form.Item>
-                          <Form.Item label="Role" name="role">
-                          <Select
-                              bordered={false}
-                              placeholder="Select Role"
-                              size="large"
-                              showSearch
-                              className="form-select mb-3"
-                              defaultValue={(isEdit && editManager?.answer) ? '0' : undefined}
-                              onChange={(value) => {
-                                  // Only allow '0'
-                                  setFormData({ ...formData, role: value === '0' ? '0' : '' });
-                              }}
-                          >
-                              <Option value="0">Role:0</Option>
-                          </Select>
-                      </Form.Item>      
+                        
                         </Form>
-
                       )}
                     </div>
                   </div>
@@ -208,9 +216,9 @@ const Managers = () => {
                       <th scope="col">Manager ID</th>
                       <th scope="col">Name</th>
                       <th scope="col">Email</th>
-                  
                       <th scope="col">Answer</th>
                       <th scope="col">Role</th>
+                      <th scope="col">Active</th>
                       <th scope="col">Actions</th>
                     </tr>
                   </thead>
@@ -221,10 +229,17 @@ const Managers = () => {
                         <td>{manager?._id}</td>
                         <td>{manager?.name}</td>
                         <td>{manager?.email}</td>
-                      
                         <td>{manager?.answer}</td>
                         <td>{manager?.role}</td>
                         <td>
+                          {/* Switch for Active/Inactive */}
+                          <Switch
+                            checked={manager.active}
+                            onChange={() => toggleManagerActive(manager._id, manager.active)}
+                          />
+                        </td>
+                        <td>
+                          {/* Update and Delete buttons */}
                           <button className="btn btn-secondary mx-2" onClick={() => handleEdit(manager._id)}>
                             Update
                           </button>

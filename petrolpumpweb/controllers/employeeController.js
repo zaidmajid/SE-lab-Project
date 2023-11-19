@@ -14,15 +14,36 @@ try {
     res.status(500).json({ error: 'An error occurred while adding the employee.' });
   }
 }
+
+
 export const getEmployees = async (req, res) => {
-    // console.log("Hello");
-    try {
-        const employee = await Employee.find()
-        return res.json(employee)
-    } catch (error) {
-        
+  try {
+    const employees = await Employee.find({ active: true });
+    res.json(employees);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while fetching the list of employees.' });
+  }
+};
+
+export const toggleActive = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const employee = await Employee.findById(id);
+
+    if (!employee) {
+      return res.status(404).json({ error: 'Employee not found' });
     }
-}
+
+    employee.active = !employee.active;
+    await employee.save();
+
+    res.status(200).json(employee);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 export const getEmployee = async (req, res) => {
    

@@ -6,6 +6,7 @@ import { comparePassword, hashPassword } from "./../helpers/authHelper.js";
 export const registerController = async (req, res) => {
   try {
     const { name, email, password,role,answer} = req.body;
+    console.log(req.body);
     //validations
     if (!name) {
       return res.send({message: "Name is Required" });
@@ -41,7 +42,7 @@ export const registerController = async (req, res) => {
       role,
       answer,
     }).save();
-
+    
     res.status(201).send({
       success: true,
       message: "User Register Successfully",
@@ -59,10 +60,28 @@ export const registerController = async (req, res) => {
 //get managers
 export const getManagers = async (req, res) => {
   try {
-    const users = await userModel.find({ role: 0 }); // Only fetch users with role 0
+    const users = await userModel.find({ role: 0, active: true }); // Only fetch users with role 0
     return res.json(users);
   } catch (error) {
     return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+export const toggleActive = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await userModel.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    user.active = !user.active;
+    await user.save();
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
 };
 //get a manager 

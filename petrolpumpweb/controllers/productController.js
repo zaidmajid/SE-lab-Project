@@ -52,11 +52,29 @@ export const createProductController = async (req, res) => {
     });
   }
 };
+export const toggleProductActiveController = async (req, res) => {
+  try {
+    const pid = req.params.pid;
+    const product = await productModel.findById(pid);
+
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    product.active = !product.active;
+    await product.save();
+
+    res.status(200).json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 
 //get all products
 export const getProductController = async (req, res) => {
   try {
-    const products = await productModel.find({})
+    const products = await productModel.find({active: true})
       .populate("category")
       .select("-photo")
       .limit(12)
