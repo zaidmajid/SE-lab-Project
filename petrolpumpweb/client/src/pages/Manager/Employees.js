@@ -1,14 +1,9 @@
-import React, { useContext, useEffect } from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
-import { Form, Input, Button, message, Switch } from "antd";
-import { Link, useNavigate } from "react-router-dom";
-import Layout from "./../../components/Layout/Layout";
+import { Form, Input, Button, Switch } from "antd";
 import { toast } from "react-toastify";
-
-import { Select, Avatar, Badge } from "antd";
-
+import Layout from "./../../components/Layout/Layout";
 import ManagerMenu from "../../components/Layout/ManagerMenu";
 
 const Employees = () => {
@@ -32,6 +27,7 @@ const Employees = () => {
     try {
       const { data } = await axios.get(`http://localhost:8080/api/employee/${id}`);
       setEditEmployee(data);
+      setActiveStatus(data.active);
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -42,6 +38,16 @@ const Employees = () => {
     handleShow();
     setIsEdit(true);
     getEmployee(id);
+  };
+
+  const handleToggleActive = async (id) => {
+    try {
+      const { data } = await axios.put(`http://localhost:8080/api/employee/toggleActive/${id}`);
+      toast.success("Employee Active Status Updated Successfully");
+      getEmployees();
+    } catch (error) {
+      toast.error("Error updating active status");
+    }
   };
 
   const getEmployees = async () => {
@@ -60,16 +66,6 @@ const Employees = () => {
     } catch (error) {}
   };
 
-  const handleToggleActive = async (id) => {
-    try {
-      const { data } = await axios.put(`http://localhost:8080/api/employee/toggleActive/${id}`);
-      toast.success("Employee Active Status Updated Successfully");
-      getEmployees();
-    } catch (error) {
-      toast.error("Error updating active status");
-    }
-  };
-
   useEffect(() => {
     getEmployees();
   }, []);
@@ -86,6 +82,7 @@ const Employees = () => {
         address: formData.address,
         phone: formData.phone,
         salary: formData.salary,
+        active: activeStatus,
       });
 
       toast.success("Employee Added Successfully ....");
@@ -100,10 +97,15 @@ const Employees = () => {
 
   const editData = async () => {
     try {
-      const { data } = await axios.put(`http://localhost:8080/api/employee/${editEmployee?._id}`, formData);
+      const { data } = await axios.put(`http://localhost:8080/api/employee/${editEmployee?._id}`, {
+        ...formData,
+        active: activeStatus,
+      });
       getEmployees();
       handleClose();
-    } catch (error) {}
+    } catch (error) {
+      console.error("Error updating employee:", error);
+    }
   };
 
   return (
@@ -119,21 +121,63 @@ const Employees = () => {
                 <Modal.Title>{isEdit ? "Edit" : "Add"} Employee</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <div className=" bg-primary flex justify-center items-center">
+                <div className="bg-primary flex justify-center items-center">
                   <div className="bg-white p-4 rounded w-[475px]">
                     <h1 className="text-primary py-4 text-center text-2xl">
                       <span className="text-orange-500 text-2xl">
-                        {" "}
                         {isEdit ? "Edit" : "Add New"} Employee
                       </span>
                     </h1>
                     {loading ? "Loading..." : (
                       <Form layout="horizontal">
-                        {/* ... other form items */}
-                        <Form.Item label="Active" name="active">
-                          <Switch checked={activeStatus} onChange={() => setActiveStatus(!activeStatus)} />
+                        <Form.Item label="Name" name="name">
+                          <Input
+                            placeholder="Name"
+                            value={formData.name}
+                            defaultValue={isEdit ? editEmployee?.name : ""}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                          />
                         </Form.Item>
-                        {/* ... other form items */}
+                        <Form.Item label="Email" name="email">
+                          <Input
+                            placeholder="Email"
+                            value={formData.email}
+                            defaultValue={isEdit ? editEmployee?.email : ""}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          />
+                        </Form.Item>
+                        <Form.Item label="CNIC" name="cnic">
+                          <Input
+                            placeholder="CNIC"
+                            value={formData.cnic}
+                            defaultValue={isEdit ? editEmployee?.cnic : ""}
+                            onChange={(e) => setFormData({ ...formData, cnic: e.target.value })}
+                          />
+                        </Form.Item>
+                        <Form.Item label="Phone" name="phone">
+                          <Input
+                            placeholder="Phone"
+                            value={formData.phone}
+                            defaultValue={isEdit ? editEmployee?.phone : ""}
+                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                          />
+                        </Form.Item>
+                        <Form.Item label="Address" name="address">
+                          <Input
+                            placeholder="Address"
+                            value={formData.address}
+                            defaultValue={isEdit ? editEmployee?.address : ""}
+                            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                          />
+                        </Form.Item>
+                        <Form.Item label="Salary" name="salary">
+                          <Input
+                            placeholder="Salary"
+                            value={formData.salary}
+                            defaultValue={isEdit ? editEmployee?.salary : ""}
+                            onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
+                          />
+                        </Form.Item>
                       </Form>
                     )}
                   </div>
@@ -154,20 +198,21 @@ const Employees = () => {
                     !isEdit && !formData.email ||
                     !isEdit && !formData.cnic ||
                     !isEdit && !formData.address ||
+                    !isEdit && !formData.phone ||
                     !isEdit && !formData.salary ||
                     loading
                   }
                 >
-                  {loading ? "loading ..." : "Save"}{" "}
+                  {loading ? "Loading..." : "Save"}
                 </Button>
               </Modal.Footer>
             </Modal>
             <div className="col-md-9">
-              <div className="container ">
+              <div className="container">
                 <div className="d-flex justify-content-between mt-3 ml-20">
-                  <h2>Employee</h2>
+                  <h2>Employees</h2>
                   <button className="btn btn-success" onClick={handleShow}>
-                    +Add
+                    + Add
                   </button>
                 </div>
                 <table className="table ml-20">
@@ -185,29 +230,37 @@ const Employees = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {employeesArray?.map((employee, index) => {
-                      return (
-                        <tr key={employee._id}>
-                          <td>{index + 1}</td>
-                          <td>{employee?.name}</td>
-                          <td>{employee?.email}</td>
-                          <td>{employee?.cnic}</td>
-                          <td>{employee?.phone}</td>
-                          <td>{employee?.address}</td>
-                          <td>{employee?.salary}</td>
-                          <td>
-                            <Switch
-                              checked={employee?.active}
-                              onChange={() => handleToggleActive(employee._id)}
-                            />
-                          </td>
-                          <td>
-                            <button className="btn btn-secondary mx-2" onClick={() => handleEdit(employee._id)}>Update</button>
-                            <button className="btn btn-danger" onClick={() => delEmployee(employee?._id)}>Delete</button>{" "}
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {employeesArray?.map((employee, index) => (
+                      <tr key={employee._id}>
+                        <td>{index + 1}</td>
+                        <td>{employee?.name}</td>
+                        <td>{employee?.email}</td>
+                        <td>{employee?.cnic}</td>
+                        <td>{employee?.phone}</td>
+                        <td>{employee?.address}</td>
+                        <td>{employee?.salary}</td>
+                        <td>
+                          <Switch
+                            checked={employee?.active}
+                            onChange={() => handleToggleActive(employee._id)}
+                          />
+                        </td>
+                        <td>
+                          <button
+                            className="btn btn-secondary mx-2"
+                            onClick={() => handleEdit(employee._id)}
+                          >
+                            Update
+                          </button>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => delEmployee(employee?._id)}
+                          >
+                            Delete
+                          </button>{" "}
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

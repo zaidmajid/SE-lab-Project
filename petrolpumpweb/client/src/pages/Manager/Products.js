@@ -51,6 +51,11 @@ const Products = () => {
             <h1 className="text-center">All Products List</h1>
             <div className="d-flex flex-wrap">
               {products?.map((p) => (
+                 <Link
+                 key={p._id}
+                 to={`/dashboard/Manager/product/${p.slug}`}
+                 className="product-link"
+               >
                 <div key={p._id} className="card m-2" style={{ width: "20rem", background: "lightgray" }}>
                   <img
                     src={`http://localhost:8080/api/product-photo/${p._id}`}
@@ -70,6 +75,7 @@ const Products = () => {
                     </button>
                   </div>
                 </div>
+                </Link>
               ))}
             </div>
           </div>
