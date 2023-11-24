@@ -8,7 +8,7 @@ export async function saveLogs(msg, url,portal) { //jado
       }
 
       try {
-          const response = await axios.post('http://localhost:8080/api/frontendLogs', log, { //yaha
+          const response = await axios.post('http://localhost:8080/api/frontendLogs', log, { 
               headers: {
                   "Content-Type": "application/json", 
               },

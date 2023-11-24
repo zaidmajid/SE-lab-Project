@@ -1,6 +1,9 @@
 import userModel from "../models/userModel.js";
+import frontendlogsModel from "../models/frontendlogsModel.js";
 import JWT from "jsonwebtoken";
 import { comparePassword, hashPassword } from "./../helpers/authHelper.js";
+import { saveLogs } from "./backendlogsController.js";
+import { usersAudit } from "./usersauditController.js";
 
 
 export const registerController = async (req, res) => {
@@ -42,16 +45,20 @@ export const registerController = async (req, res) => {
       role,
       answer,
     }).save();
+
+    // User Insert Audit
+    usersAudit(user._id,"INSERT","-",user);
     
     res.status(201).send({
       success: true,
       message: "User Register Successfully",
       user,
     });
-  } catch (error) {
+  } catch (error) { 
     console.log(error);
+    saveLogs(error.message,"/register","POST") 
     res.status(500).send({
-      success: false,
+      success: false,    
       message: "Error in Registeration",
       error,
     });
@@ -63,6 +70,7 @@ export const getManagers = async (req, res) => {
     const users = await userModel.find({ role: 0, active: true }); // Only fetch users with role 0
     return res.json(users);
   } catch (error) {
+    saveLogs(error.message,"/managers","GET") 
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
@@ -80,6 +88,7 @@ export const toggleActive = async (req, res) => {
 
     res.status(200).json(user);
   } catch (error) {
+    saveLogs(error.message,"/manager/toggleActive/:id","PUT");
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
@@ -94,6 +103,7 @@ export const getManager = async (req, res) => {
 
     return res.status(200).json(user);
   } catch (error) {
+    saveLogs(error.message,"/manager/:id","GET");
     return res.status(500).json({ error: 'An error occurred while fetching the user.' });
   }
 };
@@ -103,18 +113,24 @@ export const editManager = async (req, res) => {
     const userId = req.params.id;
     const updatedData = req.body;
 
+    const oldValue = await userModel.find({_id:userId});
+
     const updatedUser = await userModel.findByIdAndUpdate(
       { _id: userId },
       updatedData,
       { new: true }
     );
 
+    usersAudit(userId,"UPDATE",oldValue[0],updatedData); 
+
     if (!updatedUser) {
       return res.status(404).json({ error: 'User not found' });
+    
     }
 
     res.status(200).json({ User: updatedUser });
   } catch (error) {
+    saveLogs(error.message,"/manager/:id","PUT");
     res.status(500).json({ error: 'An error occurred while updating the user.' });
   }
 };
@@ -123,8 +139,11 @@ export const editManager = async (req, res) => {
 export const delManager = async (req, res) => {
   try {
     const userId = req.params.id;
+    const oldValue = await userModel.find({_id:userId}); 
+   
 
     const deletedUser = await userModel.findOneAndDelete({ _id: userId });
+    usersAudit(userId,"DELETE",oldValue[0],"-");
 
     if (!deletedUser) {
       return res.status(404).json({ error: 'User not found' });
@@ -132,6 +151,7 @@ export const delManager = async (req, res) => {
 
     return res.json({  deletedUser });
   } catch (error) {
+    saveLogs(error.message,"/manager/:id","DELETE");
     return res.status(500).json({ error: 'An error occurred while deleting the user.' });
   }
 };
@@ -183,6 +203,7 @@ export const loginController = async (req, res) => {
       token,
     });
   } catch (error) {
+    saveLogs(error.message,"/login","POST");
     console.error(error);
     res.status(500).json({
       success: false,
@@ -223,6 +244,7 @@ export const forgotPasswordController = async (req, res) => {
       message: "Password Reset Successfully",
     });
   } catch (error) {
+    saveLogs(error.message,"/forgot-password","POST");
     console.log(error);
     res.status(500).send({
       success: false,
@@ -236,7 +258,19 @@ export const forgotPasswordController = async (req, res) => {
     try {
       res.send("Protected Routes");
     } catch (error) {
+      saveLogs(error.message,"/test","GET");
       console.log(error);
       res.send({ error });
     }
+  };
+
+  export  const fronEndlogsController =async (req, res) => {
+      const ErrorMessage=req.body.message;
+      const pageURL=req.body.url;
+      const portal=req.body.portal;
+      console.log(req.body);
+      const log = new frontendlogsModel({ ErrorMessage,pageURL,portal});
+      await log.save();
+
+      res.send({ message: "Log saved" });
   };

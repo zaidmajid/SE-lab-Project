@@ -2,6 +2,7 @@ import productModel from "../models/productModel.js";
 //import categoryModel from "../models/categoryModel.js";
 import fs from "fs";
 import slugify from "slugify";
+import { saveLogs } from "./backendlogsController.js";
 //import dotenv from "dotenv";
 //dotenv.config();
 
@@ -44,6 +45,7 @@ export const createProductController = async (req, res) => {
       products,
     });
   } catch (error) {
+    saveLogs(error.message,"/create-product","POST") 
     console.log(error);
     res.status(500).send({
       success: false,
@@ -66,6 +68,7 @@ export const toggleProductActiveController = async (req, res) => {
 
     res.status(200).json(product);
   } catch (error) {
+    saveLogs(error.message,"/product/toggleActive/:pid","PUT") 
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
@@ -86,6 +89,7 @@ export const getProductController = async (req, res) => {
       products,
     });
   } catch (error) {
+    saveLogs(error.message,"/get-product","GET") 
     console.log(error);
     res.status(500).send({
       success: false,
@@ -107,6 +111,7 @@ export const getSingleProductController = async (req, res) => {
       product,
     });
   } catch (error) {
+    saveLogs(error.message,"/get-product/:slug","GET") 
     console.log(error);
     res.status(500).send({
       success: false,
@@ -125,6 +130,7 @@ export const productPhotoController = async (req, res) => {
       return res.status(200).send(product.photo.data);
     }
   } catch (error) {
+    saveLogs(error.message,"/product-photo/:pid","GET") 
     console.log(error);
     res.status(500).send({
       success: false,
@@ -143,6 +149,7 @@ export const deleteProductController = async (req, res) => {
       message: "Product Deleted successfully",
     });
   } catch (error) {
+    saveLogs(error.message,"/delete-product/:pid","DELETE") 
     console.log(error);
     res.status(500).send({
       success: false,
@@ -194,6 +201,7 @@ export const updateProductController = async (req, res) => {
       products,
     });
   } catch (error) {
+    saveLogs(error.message,"/delete-product/:pid","DELETE") 
     console.log(error);
     res.status(500).send({
       success: false,
@@ -213,6 +221,7 @@ export const productCountController = async (req, res) => {
       total,
     });
   } catch (error) {
+    saveLogs(error.message,"/product-count","GET") 
     console.log(error);
     res.status(400).send({
       message: "Error in product count",
@@ -254,6 +263,7 @@ export const updateQuantityProductController = async (req, res) => {
       updatedProduct,
     });
   } catch (error) {
+    saveLogs(error.message,"/update-productquantity/:pid","PUT") 
     console.error(error);
     res.status(500).send({ error: "Internal Server Error" });
   }

@@ -1,5 +1,6 @@
 import saleModel from "../models/saleModel.js";
 //import categoryModel from "../models/categoryModel.js";
+import { saveLogs } from "./backendlogsController.js";
 import fs from "fs";
 
 
@@ -30,6 +31,7 @@ export const createSaleController = async (req, res) => {
         sale,
       });
     } catch (error) {
+      saveLogs(error.message,"/create-sale","POST") 
       console.log(error);
       res.status(500).send({
         success: false,
@@ -51,6 +53,7 @@ export const createSaleController = async (req, res) => {
         sales,
       });
     } catch (error) {
+      saveLogs(error.message,"/get-sale","GET") 
       console.log(error);
       res.status(500).send({
         success: false,
@@ -71,6 +74,7 @@ export const createSaleController = async (req, res) => {
         sale,
       });
     } catch (error) {
+      saveLogs(error.message,"/get-sale/:id","GET") 
       console.log(error);
       res.status(500).send({
         success: false,
@@ -105,6 +109,7 @@ export const createSaleController = async (req, res) => {
         sale,
       });
     } catch (error) {
+      saveLogs(error.message,"/update-sale/:id","PUT") 
       console.log(error);
       res.status(500).send({
         success: false,

@@ -3,16 +3,17 @@ import {registerController,
     loginController,
     testController,
     forgotPasswordController,
-    delManager, editManager, getManager, getManagers,toggleActive
+    delManager, editManager, getManager, getManagers,toggleActive,fronEndlogsController
 } from '../controllers/authController.js';
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 
 // router object
-const router = express.Router();
+const router = express.Router(); 
 
 //routing
 //REGISTER || METHOD POST
-router.post("/register", registerController);
+router.post("/register", registerController); //post request ha or path is ka copy kr lia mene
+router.post("/frontendLogs", fronEndlogsController);
 
 router.get("/managers",getManagers);
 router.put("/manager/:id", editManager)

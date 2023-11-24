@@ -14,6 +14,7 @@ import {
 import emailController from "../controllers/emailController.js";
 import {requireSignIn } from "../middlewares/authMiddleware.js";
 import formidable from "express-formidable";
+import { saveLogs } from "../controllers/backendlogsController.js";
 
 const router = express.Router();
 
@@ -51,6 +52,7 @@ router.post("/send-email", async (req, res) => {
     await emailController.sendEmail(to, subject, text);
     return res.status(200).json({ success: true, message: "Email sent successfully" });
   } catch (error) {
+    saveLogs(error.message,"/send-email","POST") 
     console.error(error);
     return res.status(500).json({ success: false, message: "Failed to send email" });
   }
