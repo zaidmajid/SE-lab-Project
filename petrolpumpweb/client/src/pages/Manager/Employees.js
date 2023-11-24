@@ -4,6 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import { Form, Input, Button, Switch } from "antd";
 import { toast } from "react-toastify";
 import Layout from "./../../components/Layout/Layout";
+import { saveLogs } from "../../components/utils/logs";
 import ManagerMenu from "../../components/Layout/ManagerMenu";
 
 const Employees = () => {
@@ -30,6 +31,7 @@ const Employees = () => {
       setActiveStatus(data.active);
       setLoading(false);
     } catch (error) {
+      saveLogs(error.message,"Manager/employee","Manager") 
       setLoading(false);
     }
   };
@@ -46,6 +48,7 @@ const Employees = () => {
       toast.success("Employee Active Status Updated Successfully");
       getEmployees();
     } catch (error) {
+      saveLogs(error.message,"Manager/employee","Manager") 
       toast.error("Error updating active status");
     }
   };
@@ -55,6 +58,7 @@ const Employees = () => {
       let { data } = await axios.get("http://localhost:8080/api/employees");
       setEmployeeArray(data);
     } catch (err) {
+      saveLogs(err.message,"Manager/employee","Manager") 
       console.log("Error", err);
     }
   };
@@ -63,7 +67,10 @@ const Employees = () => {
     try {
       const data = await axios.delete(`http://localhost:8080/api/employee/${id}`);
       getEmployees();
-    } catch (error) {}
+    } catch (error) {
+      saveLogs(error.message,"Manager/employee","Manager") 
+      console.log("Error", error);
+    }
   };
 
   useEffect(() => {
@@ -90,6 +97,8 @@ const Employees = () => {
       setLoading(false);
       handleClose();
     } catch (err) {
+
+      saveLogs(err.message,"Manager/employee","Manager") 
       toast.error(err.response.data);
       setLoading(false);
     }
@@ -104,6 +113,7 @@ const Employees = () => {
       getEmployees();
       handleClose();
     } catch (error) {
+      saveLogs(error.message,"Manager/employee","Manager") 
       console.error("Error updating employee:", error);
     }
   };

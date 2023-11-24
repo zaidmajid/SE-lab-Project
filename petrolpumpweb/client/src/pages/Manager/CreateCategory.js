@@ -5,6 +5,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import CategoryForm from "../../components/Form/CategoryForm";
 import { Modal } from "antd";
+import { saveLogs } from "../../components/utils/logs";
 
 const CreateCategory = () => {
   const dashboardStyle = {
@@ -34,6 +35,7 @@ const CreateCategory = () => {
       }
     } catch (error) {
       console.log(error);
+      saveLogs(error.message,"Manager/create-category","Manager") 
       toast.error("something went wrong in input form");
     }
   };
@@ -46,6 +48,7 @@ const CreateCategory = () => {
         setCategories(data?.category);
       }
     } catch (error) {
+      saveLogs(error.message,"Manager/create-category","Manager") 
       console.log(error);
       toast.error("Something went wrong in getting category");
     }
@@ -63,6 +66,7 @@ const CreateCategory = () => {
       toast.success("Category Active Status Updated Successfully");
       getAllCategory();
     } catch (error) {
+      saveLogs(error.message,"Manager/create-category","Manager") 
       toast.error("Error updating active status");
     }
   };
@@ -85,6 +89,7 @@ const CreateCategory = () => {
         toast.error(data.message);
       }
     } catch (error) {
+      saveLogs(error.message,"Manager/create-category","Manager") 
       console.log(error);
     }
   };
@@ -100,6 +105,7 @@ const CreateCategory = () => {
         toast.error(data.message);
       }
     } catch (error) {
+      saveLogs(error.message,"Manager/create-category","Manager") 
       toast.error("Something went wrong");
     }
   };

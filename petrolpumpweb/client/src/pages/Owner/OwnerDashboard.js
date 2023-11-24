@@ -3,6 +3,7 @@ import OwnerMenu from "../../components/Layout/OwnerMenu";
 import Layout from "./../../components/Layout/Layout";
 import { useAuth } from "../../context/auth";
 import { borderColor } from './../../../../node_modules/@mui/system/esm/borders';
+import { saveLogs } from "../../components/utils/logs";
 
 const OwnerDashboard = () => {
   const { auth } = useAuth();

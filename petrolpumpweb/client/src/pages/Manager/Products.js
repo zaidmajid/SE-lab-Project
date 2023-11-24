@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ManagerMenu from '../../components/Layout/ManagerMenu';
 import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
+import { saveLogs } from "../../components/utils/logs";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 
@@ -13,6 +14,7 @@ const Products = () => {
       const { data } = await axios.get("http://localhost:8080/api/get-product");
       setProducts(data.products);
     } catch (error) {
+      saveLogs(error.message,"Manager/products","Manager") 
       console.log(error);
       toast.error("Something Went Wrong");
     }
@@ -30,6 +32,7 @@ const Products = () => {
       toast.success("Product Active Status Updated Successfully");
       getAllProducts();
     } catch (error) {
+      saveLogs(error.message,"Manager/products","Manager") 
       toast.error("Error updating active status");
     }
   };

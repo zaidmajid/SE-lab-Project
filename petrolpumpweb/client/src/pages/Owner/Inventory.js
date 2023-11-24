@@ -4,6 +4,7 @@ import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { saveLogs } from "../../components/utils/logs";
 const Inventory = () => {
   const [products, setProducts] = useState([]);
 
@@ -14,6 +15,7 @@ const Inventory = () => {
       const { data } = await axios.get("http://localhost:8080/api/get-product");
       setProducts(data.products);
     } catch (error) {
+      saveLogs(error.message,"Owner/inventoryreport","Owner") 
       console.log(error);
       toast.error("Someething Went Wrong");
     }

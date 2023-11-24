@@ -4,6 +4,7 @@ import ManagerMenu from '../../components/Layout/ManagerMenu'
 import toast from "react-hot-toast";
 import axios from "axios";
 import { Select } from "antd";
+import { saveLogs } from "../../components/utils/logs";
 import { useNavigate, useParams } from "react-router-dom";
 const { Option } = Select;
 
@@ -33,6 +34,7 @@ const UpdateProduct = () => {
       setQuantity(data.product.quantity);
       setCategory(data.product.category._id);
     } catch (error) {
+      saveLogs(error.message,"Manager/product/:slug","Manager") 
       console.log(error);
     }
   };
@@ -48,6 +50,7 @@ const UpdateProduct = () => {
         setCategories(data?.category);
       }
     } catch (error) {
+      saveLogs(error.message,"Manager/product/:slug","Manager") 
       console.log(error);
       toast.error("Something wwent wrong in getting catgeory");
     }
@@ -77,6 +80,7 @@ const UpdateProduct = () => {
         navigate("/dashboard/Manager/products");
       }
     } catch (error) {
+      saveLogs(error.message,"Manager/product/:slug","Manager") 
       console.log(error);
       toast.error("something went wrong");
     }
@@ -93,6 +97,7 @@ const UpdateProduct = () => {
       toast.success("Product Deleted Succfully");
       navigate("/dashboard/Manager/products");
     } catch (error) {
+      saveLogs(error.message,"Manager/product/:slug","Manager") 
       console.log(error);
       toast.error("Something went wrong");
     }

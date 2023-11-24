@@ -5,6 +5,7 @@ import Layout from "../../components/Layout/Layout";
 import OwnerMenu from "../../components/Layout/OwnerMenu";
 import { toast } from "react-toastify";
 import Button from "@mui/material/Button";
+import { saveLogs } from "../../components/utils/logs";
 import jsPDF from "jspdf";
 
 const Reports = () => {
@@ -40,6 +41,7 @@ const Reports = () => {
       const { data } = await axios.get("http://localhost:8080/api/get-product");
       setProducts(data.products);
     } catch (error) {
+      saveLogs(error.message,"Owner/transactions","Owner") 
       console.log(error);
       toast.error("Something Went Wrong");
     }
@@ -62,6 +64,7 @@ const Reports = () => {
         setSales(salesWithCategoryDetails);
       }
     } catch (error) {
+      saveLogs(error.message,"Owner/transactions","Owner") 
       console.log(error);
       toast.error("Something went wrong in getting sales");
     }
@@ -72,6 +75,7 @@ const Reports = () => {
       const { data } = await axios.get("http://localhost:8080/api/employees");
       setEmployeeArray(data);
     } catch (err) {
+      saveLogs(err.message,"Owner/transactions","Owner") 
       console.log("Error", err);
     }
   };

@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import ManagerMenu from "./../../components/Layout/ManagerMenu";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { saveLogs } from "../../components/utils/logs";
 
 const { Option } = Select;
 
@@ -46,6 +47,7 @@ const DisplaySales = () => {
         setSales(salesWithCategoryDetails);
       }
     } catch (error) {
+      saveLogs(error.message,"Manager/sales","Manager") 
       console.log(error);
       toast.error("Something went wrong in getting sales");
     }
@@ -131,6 +133,7 @@ const DisplaySales = () => {
         toast.error(data.message);
       }
     } catch (error) {
+      saveLogs(error.message,"Manager/sales","Manager") 
       console.log(error);
     }
   };

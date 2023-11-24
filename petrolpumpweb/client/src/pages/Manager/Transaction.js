@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "../../components/Layout/Layout";
+import { saveLogs } from "../../components/utils/logs";
 import ManagerMenu from "../../components/Layout/ManagerMenu";
 import { toast } from "react-toastify";
 import Button from "@mui/material/Button";
@@ -42,6 +43,7 @@ const Transaction = () => {
       const { data } = await axios.get("http://localhost:8080/api/get-product");
       setProducts(data.products);
     } catch (error) {
+      saveLogs(error.message,"Manager/transactions","Manager") 
       console.log(error);
       toast.error("Something Went Wrong");
     }
@@ -64,6 +66,7 @@ const Transaction = () => {
         setSales(salesWithCategoryDetails);
       }
     } catch (error) {
+      saveLogs(error.message,"Manager/transactions","Manager") 
       console.log(error);
       toast.error("Something went wrong in getting sales");
     }
@@ -74,6 +77,7 @@ const Transaction = () => {
       const { data } = await axios.get("http://localhost:8080/api/employees");
       setEmployeeArray(data);
     } catch (err) {
+      saveLogs(err.message,"Manager/transactions","Manager") 
       console.log("Error", err);
     }
   };

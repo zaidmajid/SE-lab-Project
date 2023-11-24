@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Select } from "antd";
 import Layout from "./../../components/Layout/Layout";
 import OwnerMenu from "../../components/Layout/OwnerMenu";
+import { saveLogs } from "../../components/utils/logs";
 const { Option } = Select;
 
 const Managers = () => {
@@ -30,6 +31,7 @@ const Managers = () => {
       setEditManager(data);
       setLoading(false);
     } catch (error) {
+      saveLogs(error.message,"Owner/manager","Owner") 
       setLoading(false);
     }
   };
@@ -45,6 +47,7 @@ const Managers = () => {
       const { data } = await axios.get("http://localhost:8080/api/managers");
       setManagerArray(data);
     } catch (err) {
+      saveLogs(err.message,"Owner/manager","Owner") 
       console.log("Error", err);
     }
   };
@@ -54,6 +57,7 @@ const Managers = () => {
       await axios.delete(`http://localhost:8080/api/manager/${id}`);
       getManagers();
     } catch (error) {
+      saveLogs(error.message,"Owner/manager","Owner") 
       console.error("Error deleting manager:", error);
     }
   };
@@ -90,6 +94,7 @@ const Managers = () => {
       setLoading(false);
       handleClose();
     } catch (err) {
+      saveLogs(err.message,"Owner/manager","Owner") 
       toast.error(err.response.data);
       setLoading(false);
     }
@@ -101,6 +106,7 @@ const Managers = () => {
       getManagers();
       handleClose();
     } catch (error) {
+      saveLogs(error.message,"Owner/manager","Owner") 
       console.error("Error updating manager:", error);
     }
   };
@@ -112,6 +118,7 @@ const Managers = () => {
       toast.success("manager Active Status Updated Successfully");
       getManagers();
     } catch (error) {
+      saveLogs(error.message,"Owner/manager","Owner") 
       toast.error("Error updating active status");
     }
   };

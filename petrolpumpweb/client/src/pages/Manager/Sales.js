@@ -5,6 +5,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import ManagerMenu from '../../components/Layout/ManagerMenu';
 import Layout from '../../components/Layout/Layout';
+import { saveLogs } from "../../components/utils/logs";
 
 const { Option } = Select;
 
@@ -31,6 +32,7 @@ const CreateSale = () => {
         setProducts(data?.products);
       }
     } catch (error) {
+      saveLogs(error.message,"Manager/sales","Manager") 
       console.log(error);
       toast.error('Something went wrong in getting products');
     }
@@ -101,6 +103,7 @@ const CreateSale = () => {
         toast.error(data?.message);
       }
     } catch (error) {
+      saveLogs(error.message,"Manager/sales","Manager") 
       console.log(error);
       toast.error('Something went wrong');
     }

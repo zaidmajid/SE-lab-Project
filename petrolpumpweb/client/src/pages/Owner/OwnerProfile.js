@@ -2,6 +2,7 @@ import React from 'react';
 import Layout from './../../components/Layout/Layout';
 import OwnerMenu from '../../components/Layout/OwnerMenu';
 import { useAuth } from '../../context/auth';
+import { saveLogs } from "../../components/utils/logs";
 
 const OwnerProfile = () => {
   const { auth } = useAuth();
