@@ -27,7 +27,7 @@ const Managers = () => {
   const getManager = async (id) => {
     setLoading(true);
     try {
-      const { data } = await axios.get(`http://localhost:8080/api/manager/${id}`);
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/manager/${id}`);
       setEditManager(data);
       setLoading(false);
     } catch (error) {
@@ -44,7 +44,7 @@ const Managers = () => {
 
   const getManagers = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/managers");
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/managers`);
       setManagerArray(data);
     } catch (err) {
       saveLogs(err.message,"Owner/manager","Owner") 
@@ -54,7 +54,7 @@ const Managers = () => {
 
   const delManager = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/manager/${id}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/manager/${id}`);
       getManagers();
     } catch (error) {
       saveLogs(error.message,"Owner/manager","Owner") 
@@ -72,7 +72,7 @@ const Managers = () => {
     try {
       setLoading(true);
       formData.role="0";
-      const response = await axios.post("http://localhost:8080/api/register", {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/register`, {
         name: formData.name,
         email: formData.email,
         password: formData.password,
@@ -102,7 +102,7 @@ const Managers = () => {
   
   const editData = async () => {
     try {
-      await axios.put(`http://localhost:8080/api/manager/${editManager?._id}`, formData);
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/manager/${editManager?._id}`, formData);
       getManagers();
       handleClose();
     } catch (error) {
@@ -114,7 +114,7 @@ const Managers = () => {
   const toggleManagerActive = async (id, currentActiveStatus) => {
     try {
       console.log(id);
-      const { data } = await axios.put(`http://localhost:8080/api/manager/toggleActive/${id}`);
+      const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/manager/toggleActive/${id}`);
       toast.success("manager Active Status Updated Successfully");
       getManagers();
     } catch (error) {

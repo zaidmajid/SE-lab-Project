@@ -74,6 +74,16 @@ export const getManagers = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+//get users
+export const getUsers = async (req, res) => {
+  try {
+    const users = await userModel.find({  active: true }); 
+    return res.json(users);
+  } catch (error) {
+    saveLogs(error.message,"/managers","GET") 
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 export const toggleActive = async (req, res) => {
   try {
     const id = req.params.id;

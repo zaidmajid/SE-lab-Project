@@ -24,7 +24,7 @@ const UpdateProduct = () => {
   //get single product
   const getSingleProduct = async () => {
     try {
-      const { data } = await axios.get( `http://localhost:8080/api/get-product/${params.slug}` );
+      const { data } = await axios.get( `${process.env.REACT_APP_API_URL}/api/get-product/${params.slug}` );
       setBrandName(data.product.Brandname);
       setId(data.product._id);
       setBrandEmail(data.product.Brandemail);
@@ -45,7 +45,7 @@ const UpdateProduct = () => {
   //get all category
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/get-category");
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/get-category`);
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -72,7 +72,7 @@ const UpdateProduct = () => {
       productData.append("quantity", quantity);
       photo && productData.append("photo", photo);
       productData.append("category", category);
-      const { data } = axios.put(`http://localhost:8080/api/update-product/${id}`,productData);
+      const { data } = axios.put(`${process.env.REACT_APP_API_URL}/api/update-product/${id}`,productData);
       if (data?.success) {
         toast.error(data?.message);
       } else {
@@ -92,7 +92,7 @@ const UpdateProduct = () => {
       let answer = window.prompt("Are You Sure want to delete this product ? ");
       if (!answer) return;
       const { data } = await axios.delete(
-        `http://localhost:8080/api/delete-product/${id}`
+        `${process.env.REACT_APP_API_URL}/api/delete-product/${id}`
       );
       toast.success("Product Deleted Succfully");
       navigate("/dashboard/Manager/products");
@@ -159,7 +159,7 @@ const UpdateProduct = () => {
                 ) : (
                   <div className="text-center">
                     <img
-                      src={`http://localhost:8080/api/product-photo/${id}`}
+                      src={`${process.env.REACT_APP_API_URL}/api/product-photo/${id}`}
                       alt="product_photo"
                       height={"200px"}
                       className="img img-responsive"

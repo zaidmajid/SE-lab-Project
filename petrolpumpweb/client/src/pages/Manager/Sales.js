@@ -27,7 +27,7 @@ const CreateSale = () => {
   // get all products
   const getAllProducts = async () => {
     try {
-      const { data } = await axios.get('http://localhost:8080/api/get-product');
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/get-product`);
       if (data?.success) {
         setProducts(data?.products);
       }
@@ -72,7 +72,7 @@ const CreateSale = () => {
   
       console.log(saleData);
   
-      const { data } = await axios.post('http://localhost:8080/api/create-sale', saleData);
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/create-sale`, saleData);
   
       if (data?.success) {
         toast.success('Sale Created Successfully');
@@ -88,7 +88,7 @@ const CreateSale = () => {
         // Update quantity on the server
         const updatedquantity = updatedProduct.quantity;
         const updateQuantityResponse = await axios.put(
-          `http://localhost:8080/api/update-productquantity/${selectedProduct}`,
+          `${process.env.REACT_APP_API_URL}/api/update-productquantity/${selectedProduct}`,
           { quantity: updatedquantity },
         );
   

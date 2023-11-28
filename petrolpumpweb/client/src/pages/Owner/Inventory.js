@@ -12,7 +12,7 @@ const Inventory = () => {
 
   const getAllProducts2 = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/get-product");
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/get-product`);
       setProducts(data.products);
     } catch (error) {
       saveLogs(error.message,"Owner/inventoryreport","Owner") 
@@ -51,7 +51,7 @@ const Inventory = () => {
               >
                 <div className="card m-2" style={{ width: "20rem"  , background:"lightgray"}}>
                   <img
-                    src={`http://localhost:8080/api/product-photo/${p._id}`}
+                    src={`${process.env.REACT_APP_API_URL}/api/product-photo/${p._id}`}
                     className="card-img-top" style={{ width: "20rem" ,height: "10rem" }}
                     alt={p.name}
                   />

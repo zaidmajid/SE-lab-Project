@@ -26,7 +26,7 @@ const Employees = () => {
   const getEmployee = async (id) => {
     setLoading(true);
     try {
-      const { data } = await axios.get(`http://localhost:8080/api/employee/${id}`);
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/employee/${id}`);
       setEditEmployee(data);
       setActiveStatus(data.active);
       setLoading(false);
@@ -44,7 +44,7 @@ const Employees = () => {
 
   const handleToggleActive = async (id) => {
     try {
-      const { data } = await axios.put(`http://localhost:8080/api/employee/toggleActive/${id}`);
+      const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/employee/toggleActive/${id}`);
       toast.success("Employee Active Status Updated Successfully");
       getEmployees();
     } catch (error) {
@@ -55,7 +55,7 @@ const Employees = () => {
 
   const getEmployees = async () => {
     try {
-      let { data } = await axios.get("http://localhost:8080/api/employees");
+      let { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/employees`);
       setEmployeeArray(data);
     } catch (err) {
       saveLogs(err.message,"Manager/employee","Manager") 
@@ -65,7 +65,7 @@ const Employees = () => {
 
   const delEmployee = async (id) => {
     try {
-      const data = await axios.delete(`http://localhost:8080/api/employee/${id}`);
+      const data = await axios.delete(`${process.env.REACT_APP_API_URL}/api/employee/${id}`);
       getEmployees();
     } catch (error) {
       saveLogs(error.message,"Manager/employee","Manager") 
@@ -82,7 +82,7 @@ const Employees = () => {
 
     try {
       setLoading(true);
-      const { data } = await axios.post("http://localhost:8080/api/employee/add", {
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/employee/add`, {
         name: formData.name,
         email: formData.email,
         cnic: formData.cnic,
@@ -106,7 +106,7 @@ const Employees = () => {
 
   const editData = async () => {
     try {
-      const { data } = await axios.put(`http://localhost:8080/api/employee/${editEmployee?._id}`, {
+      const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/employee/${editEmployee?._id}`, {
         ...formData,
         active: activeStatus,
       });

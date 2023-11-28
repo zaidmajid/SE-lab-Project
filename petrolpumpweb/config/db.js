@@ -5,7 +5,7 @@ import colors from "colors";
 
 
 const connectToMongo = async () => {
-    mongoose.connect('mongodb://127.0.0.1:27017/Petrolium', {
+    mongoose.connect(process.env.MONGO_URL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });

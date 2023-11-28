@@ -4,6 +4,7 @@ import {registerController,
     testController,
     forgotPasswordController,
     delManager, editManager, getManager, getManagers,toggleActive,fronEndlogsController
+    ,getUsers
 } from '../controllers/authController.js';
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 
@@ -21,7 +22,8 @@ router.put("/manager/:id", editManager)
 router.get("/manager/:id", getManager)
 router.put("/manager/toggleActive/:id", toggleActive);
 router.delete("/manager/:id", delManager)
-
+//get users
+router.get("/users",getUsers);
 //Forgot Password || POST
 router.post("/forgot-password", forgotPasswordController);
 //LOGIN || POST

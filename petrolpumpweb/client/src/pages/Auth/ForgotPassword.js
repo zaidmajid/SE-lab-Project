@@ -17,7 +17,7 @@ const ForgotPasssword = () => {
     e.preventDefault();
     try {
       console.log("Request Payload:", { email, answer, newPassword });
-      const res = await axios.post("http://localhost:8080/api/forgot-password", {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/forgot-password`, {
         email,
         newPassword,
         answer,

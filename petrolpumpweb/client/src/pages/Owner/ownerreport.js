@@ -38,7 +38,7 @@ const Reports = () => {
 
   const getAllProducts2 = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/get-product");
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/get-product`);
       setProducts(data.products);
     } catch (error) {
       saveLogs(error.message,"Owner/transactions","Owner") 
@@ -49,12 +49,12 @@ const Reports = () => {
 
   const getAllSales = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/get-sale");
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/get-sale`);
       if (data?.success) {
         const salesWithCategoryDetails = await Promise.all(
           data.sales.map(async (sale) => {
             const categoryResponse = await axios.get(
-              `http://localhost:8080/api/single-category/${sale.product.category}`
+              `${process.env.REACT_APP_API_URL}/api/single-category/${sale.product.category}`
             );
             const categoryDetails = categoryResponse.data.category;
             return { ...sale, categoryDetails };
@@ -72,7 +72,7 @@ const Reports = () => {
 
   const getEmployees = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/employees");
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/employees`);
       setEmployeeArray(data);
     } catch (err) {
       saveLogs(err.message,"Owner/transactions","Owner") 

@@ -32,12 +32,12 @@ const DisplaySales = () => {
 
   const getAllSales = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/get-sale");
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/get-sale`);
       if (data?.success) {
         const salesWithCategoryDetails = await Promise.all(
           data.sales.map(async (sale) => {
             const categoryResponse = await axios.get(
-              `http://localhost:8080/api/single-category/${sale.product.category}`
+              `${process.env.REACT_APP_API_URL}/api/single-category/${sale.product.category}`
             );
             const categoryDetails = categoryResponse.data.category;
             return { ...sale, categoryDetails };
@@ -71,7 +71,7 @@ const DisplaySales = () => {
       const quantityDifference = updatedSoldquantity - Salequantity;
   
       const { data } = await axios.put(
-        `http://localhost:8080/api/update-sale/${selected._id}`,
+        `${process.env.REACT_APP_API_URL}/api/update-sale/${selected._id}`,
         {
           product: selectedProduct,
           Salequantity: updatedSoldquantity,
@@ -93,7 +93,7 @@ const DisplaySales = () => {
           console.log(updatedquantity);
           // Update the product quantity using the appropriate API
           const updateQuantityResponse = await axios.put(
-            `http://localhost:8080/api/update-productquantity/${selectedProduct}`,
+            `${process.env.REACT_APP_API_URL}/api/update-productquantity/${selectedProduct}`,
             { quantity: updatedquantity },  // Subtract the difference
           );
   
@@ -111,7 +111,7 @@ const DisplaySales = () => {
   
           // Update the product quantity using the appropriate API
           const updateQuantityResponse = await axios.put(
-            `http://localhost:8080/api/update-productquantity/${selectedProduct}`,
+            `${process.env.REACT_APP_API_URL}/api/update-productquantity/${selectedProduct}`,
             { quantity:updatedquantity},  // Add the absolute difference
           );
   

@@ -11,7 +11,7 @@ const Products = () => {
 
   const getAllProducts = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8080/api/get-product");
+      const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/get-product`);
       setProducts(data.products);
     } catch (error) {
       saveLogs(error.message,"Manager/products","Manager") 
@@ -28,7 +28,7 @@ const Products = () => {
   const toggleProductActive = async (id, currentActiveStatus) => {
     try {
       console.log(id);
-      const { data } = await axios.put(`http://localhost:8080/api/product/toggleActive/${id}`);
+      const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/product/toggleActive/${id}`);
       toast.success("Product Active Status Updated Successfully");
       getAllProducts();
     } catch (error) {
@@ -61,7 +61,7 @@ const Products = () => {
                >
                 <div key={p._id} className="card m-2" style={{ width: "20rem", background: "lightgray" }}>
                   <img
-                    src={`http://localhost:8080/api/product-photo/${p._id}`}
+                    src={`${process.env.REACT_APP_API_URL}/api/product-photo/${p._id}`}
                     className="card-img-top"
                     style={{ width: "20rem", height: "10rem" }}
                     alt={p.Brandname}
